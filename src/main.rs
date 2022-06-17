@@ -1,28 +1,85 @@
 use actix_web::{HttpServer, App, web, HttpResponse, Responder};
 use actix_web::web::Data;
 use tera::{Tera, Context};
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
+use std::fs;
+use std::env;
+use serde_json::value::Value;
+use serde_json::Map;
+use serde_json::json;
+use std::path::Path;
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 struct Template {
     name: String,
-    link: String,
-    author: String,
-    categorie: String,
+    url: String,
+    authors: Vec<Map<String, Value>>,
+    categories: Vec<String>,
     description: String,
-    image: String,
-    date: String,
-    tags: String,
+    tags: Vec<String>,
+    license: String,
+    version: String,
 }
 
-fn make_data() {
+fn make_data() -> serde_json::Map<std::string::String, serde_json::Value> {
+    println!("{}", env::current_dir().unwrap().display());
+    let paths = fs::read_dir("data").unwrap();
+    println!("{:#?}", paths);
+    let folder_content = paths.map(|path| path.unwrap().path());
+    let mut templates = Map::new();
+    for path in folder_content {
+        println!("{}", path.display());
+        let p = path.to_str().unwrap().to_string();
 
+        let json_data = {
+            // Load the first file into a string.
+            let text = std::fs::read_to_string(p).unwrap();
+
+            // Parse the string into a dynamically-typed JSON structure.
+            serde_json::from_str::<Value>(&text).unwrap()
+        };
+
+        let template = Template {
+            name: json_data["name"].as_str().unwrap().to_string(),
+            url: json_data["url"].as_str().unwrap().to_string(),
+            authors: json_data["authors"].as_array().unwrap().to_vec().iter().map(|x| x.as_object().unwrap().clone()).collect(),
+            categories: json_data["categories"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|x| x.as_str().unwrap().to_string())
+                .collect(),
+            description: json_data["description"].as_str().unwrap().to_string(),
+            tags: json_data["tags"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|x| x.as_str().unwrap().to_string())
+                .collect(),
+            license: json_data["license"].as_str().unwrap().to_string(),
+            version: json_data["version"].as_str().unwrap().to_string(),
+        };
+
+        templates.insert(
+            json_data["name"].as_str().unwrap().to_string(),
+            json!(template),
+        );
+
+
+    }
+    templates
 }
+
 async fn index(tera: web::Data<Tera>) -> impl Responder {
     let mut data = Context::new();
     data.insert("title", "Marketplace");
 
+    println!("NENNEJEJ");
     let templates = make_data();
+
+    println!("{:#?}", templates);
+
+    data.insert("templates", &templates);
 
     let rendered = tera.render("index.html", &data).unwrap();
     HttpResponse::Ok().body(rendered)
