@@ -6,8 +6,6 @@ use std::fs;
 use std::env;
 use serde_json::value::Value;
 use serde_json::Map;
-use serde_json::json;
-use std::path::Path;
 
 #[derive(Serialize, Deserialize)]
 struct Template {
