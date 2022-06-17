@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>{{title}}</title>
-    </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>{{title}}</title>
+</head>
     <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
+        <h1 class="text-3xl font-bold underline">CRS / Marketplace</h1>
     </nav>
     <body>
-        <h1>{{title}}</h1>
+        <h1 >{{title}}</h1>
 
         {% for t in templates %}
         <div>
-            <a href="{{ t.url }}">{{ t.title }}</a>
-            <small>{{ t.author }}</small>
+            <a href="{{ t.url }}">{{ t.name }}</a>
+            {% for author in t.authors %}
+            <div>{{ author.name }}</div>
+            {% endfor %}
             <p>{{t.description}}</p>
         </div>
         {% endfor %}
