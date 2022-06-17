@@ -23,14 +23,36 @@
     <h1 class="text-3xl font-bold underline">CRS / Marketplace</h1>
   </nav>
   <body class="w-full h-full">
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-2 gap-4 px-20 pt-5">
       {% for t in templates %}
       <!-- for t in templates -->
       <a href="{{t.url}}" class="block">
-        <div class="bg-gray-200 p-4">
+        <div class="bg-gray-100 p-4">
+
           <h2 class="text-xl font-bold">{{t.name}}</h2>
+          <h3 class="underline">{{t.url}}</h3>
           <p class="text-sm">{{t.description}}</p>
+          <div class="grid grid-cols-2">
+            <div class="">
+              <p class="text-sm">
+                <span class="font-bold">Author:</span> 
+                    {% for a in t.authors %}
+                    {{a.name}}
+                    {% endfor %}
+                    
+                </p>
+                <p class="text-sm">
+                <span class="font-bold">Version:</span> {{t.version}}
+                </p>
+                <p class="text-sm">
+                <span class="font-bold">License:</span> {{t.license}}
+                </p>
+            </div>
+            </div>
         </div>
+    
+
+        </a>
      
       <!-- endfor-->
 
