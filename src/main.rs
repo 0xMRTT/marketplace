@@ -21,12 +21,12 @@ struct Template {
     version: String,
 }
 
-fn make_data() -> serde_json::Map<std::string::String, serde_json::Value> {
+fn make_data() -> std::vec::Vec<Template> {
     println!("{}", env::current_dir().unwrap().display());
     let paths = fs::read_dir("data").unwrap();
     println!("{:#?}", paths);
     let folder_content = paths.map(|path| path.unwrap().path());
-    let mut templates = Map::new();
+    let mut templates = Vec::new();
     for path in folder_content {
         println!("{}", path.display());
         let p = path.to_str().unwrap().to_string();
@@ -60,10 +60,7 @@ fn make_data() -> serde_json::Map<std::string::String, serde_json::Value> {
             version: json_data["version"].as_str().unwrap().to_string(),
         };
 
-        templates.insert(
-            json_data["name"].as_str().unwrap().to_string(),
-            json!(template),
-        );
+        templates.push(template);
 
 
     }
@@ -74,12 +71,11 @@ async fn index(tera: web::Data<Tera>) -> impl Responder {
     let mut data = Context::new();
     data.insert("title", "Marketplace");
 
-    println!("NENNEJEJ");
     let templates = make_data();
 
-    println!("{:#?}", templates);
-
     data.insert("templates", &templates);
+
+    
 
     let rendered = tera.render("index.html", &data).unwrap();
     HttpResponse::Ok().body(rendered)
