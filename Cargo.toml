@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4"
-tera = "1.5.0" 
+tera = "1.5.0"
+serde = "1.0" 
