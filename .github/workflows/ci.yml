@@ -24,11 +24,11 @@ jobs:
           rustc --version
           cargo clippy --version          
 
-      - name: Test
-        run: |
-          cargo check
-          cargo clippy -- -D warnings
-          cargo test --all          
+      #- name: Test
+      #  run: |
+      #    cargo check
+      #    cargo clippy -- -D warnings
+      #    cargo test --all          
 
 
       - name: Build Docker image
