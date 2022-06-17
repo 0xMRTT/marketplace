@@ -1,4 +1,5 @@
 use actix_web::{HttpServer, App, web, HttpResponse, Responder};
+use actix_web::web::Data;
 use tera::{Tera, Context};
 
 async fn index(tera: web::Data<Tera>) -> impl Responder {
@@ -14,10 +15,10 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         let tera = Tera::new("templates/**/*").unwrap();
         App::new()
-            .app_data(tera)
+            .app_data(Data::new(tera))
             .route("/", web::get().to(index))
     })
-    .bind("127.0.0.1:8000")?
+    .bind("127.0.0.1:8080")?
     .run()
     .await
 }
