@@ -1,0 +1,20 @@
+{
+    "name": "Rust template",
+    "url": "https://github.com/0xMRTT/rust-template",
+    "description": "A Rust template",
+    "version": "0.1.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "0xMRTT",
+            "email": "0xMRTT@tuta.io"
+        }
+    ],
+    "tags": [
+        "rust",
+        "template"
+    ],
+    "categories": [
+        "rust"
+    ]
+}
