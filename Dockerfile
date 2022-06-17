@@ -39,7 +39,7 @@ COPY --from=builder /etc/group /etc/group
 WORKDIR /myapp
 
 # Copy our build
-COPY --from=builder /myapp/target/x86_64-unknown-linux-musl/release/myapp ./
+COPY --from=builder /myapp/target/x86_64-unknown-linux-musl/release/marketplace ./
 
 # Use an unprivileged user.
 USER myapp:myapp
