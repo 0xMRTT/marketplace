@@ -1,0 +1,19 @@
+{
+    "name": "Python template",
+    "url": "https://github.com/0xMRTT/python-template",
+    "description": "A python template",
+    "version": "0.1.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "0xMRTT",
+            "email": "0xMRTT@tuta.io"
+        }
+    ],
+    "tags": [
+        "python"
+    ],
+    "categories": [
+        "python"
+    ]
+}
