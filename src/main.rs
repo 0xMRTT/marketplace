@@ -16,7 +16,7 @@ struct Template {
 }
 
 fn make_data() {
-    
+
 }
 async fn index(tera: web::Data<Tera>) -> impl Responder {
     let mut data = Context::new();
