@@ -1,14 +1,18 @@
-use actix_web::{HttpServer, App, web, HttpResponse};
+use actix_web::{get, web, App, HttpServer, Responder};
 
-#[actix_web::main]
+#[get("/hello/{name}")]
+async fn greet(name: web::Path<String>) -> impl Responder {
+    format!("Hello {name}!")
+}
+
+#[actix_web::main] 
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .route("/", web::to(|| {
-                HttpResponse::Ok().body("Hello, World!")
-            }))
+            .route("/hello", web::get().to(|| async { "Hello World!" }))
+            .service(greet)
     })
-    .bind("127.0.0.1:8000")?
+    .bind(("127.0.0.1", 8080))?
     .run()
     .await
 }
